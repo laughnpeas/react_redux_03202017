@@ -1,0 +1,6 @@
+1. Create a models folder under the ts folder.
+2. Create a Car Interface in the models folders.
+3. Import the Car Interface into Car Tool.
+4. Define a Car Tool Interface which has a property named cars of type Car[].
+5. Create a array of car objects in app.tsx.
+6. Pass the car objects into the Car Tool component and display them. 
