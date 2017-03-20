@@ -5,7 +5,12 @@ interface ColorToolProps {
 }
 
 interface ColorToolState {
-    newColor: string;
+    newColor?: string;
+    newMake?: string;
+}
+
+interface FormControlEvent extends React.FormEvent {
+    currentTarget: HTMLInputElement;
 }
 
 export class ColorTool extends React.Component<ColorToolProps, ColorToolState> {
@@ -14,15 +19,16 @@ export class ColorTool extends React.Component<ColorToolProps, ColorToolState> {
         super(props);
 
         this.state = {
-            newColor: "green",
+            newColor: "",
+            newMake: "",
         };
 
         this.onChange = this.onChange.bind(this);
     }
 
-    public onChange(e: any) {
+    public onChange(e: FormControlEvent) {
         this.setState({
-            newColor: e.target.value,
+            [ e.currentTarget.name ]: e.currentTarget.value,
         });
     }
 
@@ -35,7 +41,7 @@ export class ColorTool extends React.Component<ColorToolProps, ColorToolState> {
             </ul>
             <form>
                 <label htmlFor="new-color-input">New Color:</label>
-                <input type="text" id="new-color-input"
+                <input type="text" id="new-color-input" name="newColor"
                     value={this.state.newColor} onChange={this.onChange} />
             </form>
         </div>;
