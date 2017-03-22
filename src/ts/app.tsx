@@ -13,4 +13,4 @@ const cars = [
 ];
 
 // ReactDOM.render(<ColorTool colors={colors} />, document.querySelector("main"));
-ReactDOM.render(<CarTool cars={cars} />, document.querySelector("main"));
+ReactDOM.render(<CarTool baseUrl="http://localhost:3010" />, document.querySelector("main"));

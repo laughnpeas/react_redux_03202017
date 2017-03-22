@@ -110,8 +110,12 @@ module.exports = {
         proxy: {
             '/widgets': {
                 // server to proxy
-                target: 'http://localhost:3010'
-            }
+                target: 'http://localhost:3010/widgets'
+            },
+            '/cars': {
+                // server to proxy
+                target: 'http://localhost:3010/cars'
+            }            
         }
     }
 

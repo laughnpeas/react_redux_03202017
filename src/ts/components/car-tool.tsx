@@ -3,7 +3,7 @@ import * as React from "react";
 import { CarTable } from "./car-table";
 
 interface CarToolProps {
-    cars: any[];
+    baseUrl: string;
 }
 
 interface CarToolState {
@@ -16,8 +16,18 @@ export class CarTool extends React.Component<CarToolProps, CarToolState> {
         super(props);
 
         this.state = {
-            cars: this.props.cars.concat(),
+            cars: [],
         };
+    }
+
+    public componentDidMount() {
+
+        fetch(this.props.baseUrl + "/cars")
+            .then((res) => res.json())
+            .then((cars: any) => {
+                this.setState({ cars });
+            });
+
     }
 
     public render() {
