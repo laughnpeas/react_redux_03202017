@@ -1,5 +1,5 @@
 import * as React from "react";
 
 export interface FormControlEvent extends React.FormEvent {
-    currentTarget: HTMLInputElement;
+    currentTarget: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 }

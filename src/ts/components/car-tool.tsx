@@ -46,7 +46,7 @@ export class CarTool extends React.Component<CarToolProps, CarToolState> {
 
     private saveCar = (car: any) => {
 
-        let cars = this.state.cars;
+        // let cars = this.state.cars;
         let carsPromise: Promise<Response>;
 
         if (car.id) {
