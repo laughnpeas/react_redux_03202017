@@ -122,6 +122,23 @@
             // console.log(allTheRest);
 
 
+            fetch('http://localhost:3010/cars', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    make: 'Tesla',
+                    model: 'S',
+                    color: 'black',
+                    price: 100000,
+                    year: 2017,
+                })
+            })
+            .then((res) => res.json())
+            .then(results => {
+
+            });
+
+
 
         </script>
     </body>
