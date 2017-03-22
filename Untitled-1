@@ -1,0 +1,16 @@
+Goal: Editable Row
+
+1. Create an Edit Row Component. So when a Car is passed into the Edit Row Component, all
+of the fields are input boxes.
+
+Ford, Edge
+
+Input>Ford</Input, Input>Edge</Input
+
+2. Add a button to the view row, to switch the view row for one car, to edit row
+
+3. Populate the edit row inputs with the car data
+
+4. Allow the user to edit the car data in the fields
+
+5. Bonus: implement the save button

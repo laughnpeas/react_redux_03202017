@@ -24,9 +24,11 @@ export class ColorTool extends React.Component<ColorToolProps, ColorToolState> {
 
     public render() {
 
+        const otherHeader = "Color Tool!!!";
+
         return <div>
-            <ToolHeader headerText="Color Tool" />
-            <UnorderedList items={this.state.colors} />
+            <ToolHeader headerText="Color Tool"><u>{otherHeader}</u></ToolHeader>
+            <UnorderedList items={this.state.colors} onDeleteItem={this.deleteColor} />
             <ColorForm newColorSubmitted={this.addColor} />
         </div>;
 
@@ -35,6 +37,12 @@ export class ColorTool extends React.Component<ColorToolProps, ColorToolState> {
     private addColor = (newColor: string) => {
         this.setState({
             colors: this.state.colors.concat(newColor),
+        });
+    }
+
+    private deleteColor = (deleteColor: string) => {
+        this.setState({
+            colors: this.state.colors.filter((color) => color !== deleteColor)
         });
     }
 
