@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { CarForm } from "./car-form";
 import { CarTable } from "./car-table";
 
 interface CarToolProps {
@@ -31,7 +32,10 @@ export class CarTool extends React.Component<CarToolProps, CarToolState> {
     }
 
     public render() {
-        return <CarTable cars={this.state.cars} onDeleteCar={this.deleteCar} onSaveCar={this.saveCar} />;
+        return <div>
+            <CarTable cars={this.state.cars} onDeleteCar={this.deleteCar} onSaveCar={this.saveCar} />
+            <CarForm onSaveCar={this.saveCar} />
+        </div>;
     }
 
     private deleteCar = (carId: number) => {
@@ -42,12 +46,40 @@ export class CarTool extends React.Component<CarToolProps, CarToolState> {
 
     private saveCar = (car: any) => {
 
-        const carIndex = this.state.cars.findIndex((c) => c.id === car.id);
+        let cars = this.state.cars;
+        let carsPromise: Promise<Response>;
 
-        // this.state.cars.slice(0, carIndex).concat(car).concat(this.state.cars.slice(0, carIndex));
-        this.setState({
-            cars: [ ...this.state.cars.slice(0, carIndex), car, ...this.state.cars.slice(carIndex + 1) ],
-        });
+        if (car.id) {
+            // const carIndex = cars.findIndex((c) => c.id === car.id);
+            // this.state.cars.slice(0, carIndex).concat(car).concat(this.state.cars.slice(0, carIndex));
+            // cars = [ ...cars.slice(0, carIndex), car, ...cars.slice(carIndex + 1) ];
+
+            carsPromise = fetch(this.props.baseUrl + "/cars/" + encodeURIComponent(car.id.toString()), {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(car),
+            });
+
+        } else {
+            // car.id = cars.reduce((prev, current) => Math.max(prev.id, current.id)) + 1;
+            // cars = cars.concat(car);
+
+            carsPromise = fetch(this.props.baseUrl + "/cars", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(car),
+            });
+
+        }
+
+        carsPromise
+            .then(() => fetch(this.props.baseUrl + "/cars"))
+            .then((res) => res.json())
+            .then((cars: any) => {
+                this.setState({ cars });
+            });
+
+        
     }
 }
 
