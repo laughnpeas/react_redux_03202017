@@ -1,4 +1,7 @@
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import { createStore, bindActionCreators, Action, Store  } from "redux";
+// import { connect } from "react-redux";
 
 // const createStore = (reducer: any) => {
 
@@ -79,18 +82,113 @@ const divideActionCreator: (value: number) => CalcAction = (value: number) =>
 //     return actions;
 // };
 
-const { add, subtract, multiply, divide }: any = bindActionCreators({
-    add: addActionCreator,
-    subtract: subtractActionCreator,
-    multiply: multiplyActionCreator,
-    divide: divideActionCreator,
- } , store.dispatch);
+const mapStateToPropsForCalculatorTool: (state: AppState) => { results: number } = (state: AppState) => {
+    return {
+        results: state.value,
+    };
+};
+
+const mapDispatchToPropsForCalculatorTool: (dispatch: any) => { add: Function } = (dispatch: any) => {
+    return bindActionCreators({
+        add: addActionCreator,
+    }, dispatch);
+};
 
 
-add(1);
-subtract(2);
-add(3);
-subtract(4);
-add(5);
-multiply(10);
-divide(5);
+// add(1);
+// subtract(2);
+// add(3);
+// subtract(4);
+// add(5);
+// multiply(10);
+// divide(5);
+
+interface CalculatorToolProps {
+    add: any;
+    results: number;
+}
+
+interface CalculatorToolState {
+    value: number;
+}
+
+class CalculatorTool extends React.Component<CalculatorToolProps, CalculatorToolState> {
+
+    constructor(props: CalculatorToolProps) {
+        super(props);
+
+        this.state = {
+            value: 0,
+        };
+    }
+
+    public onChange = (e: any) => {
+        this.setState({
+            value: Number(e.currentTarget.value),
+        });
+    }
+
+    public onClick = () => {
+        this.props.add(this.state.value);
+    }
+
+    public render() {
+
+        return <div>
+            <div>Result: {this.props.results}</div>
+            <input type="text" value={this.state.value.toString()} onChange={this.onChange} />
+            <button type="button" onClick={this.onClick}>Add</button>
+        </div>;
+
+    }
+
+}
+
+
+const connect = (mapStateToProps: (state: AppState) => any, mapDispatchToProps: any) => {
+
+    return (ComponentClass: any) => {
+
+        return class extends React.Component<any, any> {
+
+            constructor(props: any) {
+                super(props);
+
+                this.state = {
+                    componentProps: Object.assign(
+                        mapDispatchToProps(this.props.store.dispatch),
+                        mapStateToProps(this.props.store.getState()),
+                    ),
+                };
+            }
+
+            public componentDidMount() {
+
+                this.props.store.subscribe(() => {
+
+                    this.setState({
+                        componentProps: Object.assign({}, this.state, mapStateToProps(this.props.store.getState())),
+                    });
+                });
+
+            }
+
+
+            public render() {
+                return <ComponentClass {...this.state.componentProps} />;
+            }
+
+        };
+
+    };
+
+};
+
+const CalculatorToolContainer = connect(
+    mapStateToPropsForCalculatorTool, mapDispatchToPropsForCalculatorTool
+)(CalculatorTool);
+
+
+
+ReactDOM.render(<CalculatorToolContainer store={store} />, document.querySelector("main"));
+
