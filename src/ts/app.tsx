@@ -41,10 +41,34 @@ store.subscribe(() => {
     console.log("new state", store.getState());
 });
 
-store.dispatch({ type: "ADD", value: 1 });
-store.dispatch({ type: "SUBTRACT", value: 2 });
-store.dispatch({ type: "ADD", value: 3 });
-store.dispatch({ type: "SUBTRACT", value: 4 });
-store.dispatch({ type: "ADD", value: 5 });
+const addActionCreator = (value: any) =>
+    ({ type: "ADD", value });
+
+const subtractActionCreator = (value: any) =>
+    ({ type: "SUBTRACT", value });
 
 
+const bindActionCreators = (actionCreators: any, dispatchFn: any) => {
+
+    const actions = {};
+
+    Object.keys(actionCreators).forEach((key: any) => {
+        actions[key] = (...params: any[]) => {
+            dispatchFn(actionCreators[key](...params));
+        };
+    });
+
+    return actions;
+};
+
+const { add, subtract }: any = bindActionCreators({
+    add: addActionCreator,
+    subtract: subtractActionCreator,
+ } , store.dispatch);
+
+
+add(1);
+subtract(2);
+add(3);
+subtract(4);
+add(5);
