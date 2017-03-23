@@ -36,7 +36,7 @@ class ListItem extends React.Component<ListItemProps, ListItemState> {
     }
 
     public render() {
-        return <li>{this.props.item}, {this.state.item}</li>;
+        return <li className="col-md-2">{this.props.item}, {this.state.item}</li>;
     }
 }
 

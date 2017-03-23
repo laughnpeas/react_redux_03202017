@@ -1,4 +1,4 @@
-import * as React from "react";
+/*import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 interface DemoFormProps {
@@ -39,4 +39,4 @@ class DemoForm extends React.Component<DemoFormProps, void> {
     }
 }
 
-ReactDOM.render(<DemoForm />, document.querySelector("main"));
+ReactDOM.render(<DemoForm />, document.querySelector("main"));*/
