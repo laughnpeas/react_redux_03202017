@@ -21,6 +21,7 @@
     "filesGlob": [
         "./src/ts/**/*.ts",
         "./typings/index.d.ts",
+        "./custom-typings/index.d.ts",
         "!./node_modules/**"
     ]
 }
