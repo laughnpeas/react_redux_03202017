@@ -13,7 +13,7 @@ class TodoList extends React.Component<void, TodoListState> {
 
   constructor(props: void) {
     super(props);
-    this.state = { items: ["hello", "world", "click", "me"] };
+    this.state = { items: ["hello", "world", "click", "me", "cool"] };
     this.handleAdd = this.handleAdd.bind(this);
   }
 
