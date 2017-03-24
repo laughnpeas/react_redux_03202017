@@ -54,3 +54,6 @@ class TodoList extends React.Component<void, TodoListState> {
 
 ReactDOM.render(<TodoList />, document.querySelector("main"));
 
+fetch("http://localhost:3010/cars")
+    .then((res) => res.json())
+    .then((results) => console.log(results));
