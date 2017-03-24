@@ -1,5 +1,4 @@
 import * as React from "react";
 
-export interface FormControlEvent extends React.FormEvent {
-    currentTarget: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
-}
+export declare type FormControlElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+export declare type FormControlEvent = React.FormEvent<FormControlElement>;

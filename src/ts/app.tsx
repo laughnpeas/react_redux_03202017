@@ -1,42 +1,56 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+import * as ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
+import "../scss/styles.scss";
 
-class VelocityDemoTool extends React.Component<void, {}> {
-
-    private updateElement: HTMLElement;
-
-    constructor(props: void) {
-        super(props);
-
-        this.state = {};
-    }
-
-    public componentDidMount() {
-
-        setInterval(() => {
-            console.log("interval fired");
-            this.setState({});
-        }, 5000);
-
-        Velocity(this.updateElement, "slideDown", { duration: 1500 })
-            .then(() => Velocity(this.updateElement, "slideUp", { duration: 1500 }));
-
-    }
-
-    public componentDidUpdate() {
-        console.log("component updated");
-        Velocity(this.updateElement, "slideDown", { duration: 1500 })
-            .then(() => Velocity(this.updateElement, "slideUp", { duration: 1500 }));
-    }
-
-    public render(): React.ReactElement<null> {
-        return <div>
-            <aside ref={(asideElement) => this.updateElement = asideElement}>Updated</aside>
-        </div>;
-    }
+interface TodoListState {
+    items?: string[];
 }
 
-ReactDOM.render(<VelocityDemoTool />, document.querySelector("main"));
+class TodoList extends React.Component<void, TodoListState> {
+
+  constructor(props: void) {
+    super(props);
+    this.state = { items: ["hello", "world", "click", "me"] };
+    this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  public handleAdd() {
+    const newItems = this.state.items.concat([
+      prompt("Enter some text"),
+    ]);
+    this.setState({items: newItems});
+  }
+
+  public handleRemove(i: number) {
+    const newItems = this.state.items.slice();
+    newItems.splice(i, 1);
+    this.setState({ items: newItems });
+  }
+
+  public render() {
+
+    const items = this.state.items.map((item, i) => (
+      <div key={item} onClick={() => this.handleRemove(i)}>
+        {item}
+      </div>
+    ));
+
+    return (
+      <div>
+        <button onClick={this.handleAdd}>Add Item</button>
+        <ReactCSSTransitionGroup
+          transitionName="example"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={300}>
+          {items}
+        </ReactCSSTransitionGroup>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<TodoList />, document.querySelector("main"));
 
