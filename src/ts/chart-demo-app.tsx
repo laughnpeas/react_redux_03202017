@@ -15,12 +15,7 @@ interface ChartDemoToolProps {
 }
 
 interface ChartDemoToolState {
-    data?: any[];
     firstYear?: number;
-}
-
-interface FormControlEvent extends React.FormEvent {
-    currentTarget: HTMLInputElement;
 }
 
 class ChartDemoTool extends React.Component<ChartDemoToolProps, ChartDemoToolState> {
@@ -29,12 +24,11 @@ class ChartDemoTool extends React.Component<ChartDemoToolProps, ChartDemoToolSta
         super(props);
 
         this.state = {
-            data: this.props.data.slice(1),
             firstYear: this.props.data.slice(1).reduce((a, b) => [ Math.min(Number(a[0]), Number(b[0])) ]),
         };
     }
 
-    public onChange = (e: FormControlEvent) => {
+    public onChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.setState({
             [ e.currentTarget.name ]: Number(e.currentTarget.value),
         });
@@ -44,7 +38,7 @@ class ChartDemoTool extends React.Component<ChartDemoToolProps, ChartDemoToolSta
 
         const data = [
             this.props.data[0],
-            ...this.state.data.filter((row) => Number(row[0]) >= this.state.firstYear),
+            ...this.props.data.slice(1).filter((row) => Number(row[0]) >= this.state.firstYear),
         ];
 
         return <div>

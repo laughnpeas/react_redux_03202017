@@ -17,5 +17,8 @@
         "./src/ts/**/*.ts",
         "./typings/index.d.ts",
         "./node_modules/@types/**/*.ts"
+    ],
+    "filesGlob": [
+        "./typings/index.d.ts"
     ]
 }

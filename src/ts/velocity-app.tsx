@@ -1,21 +1,31 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-class VelocityDemoTool extends React.Component<void, {}> {
+let moved = false;
+
+interface S {
+    asideIndex: number;
+}
+
+class VelocityDemoTool extends React.Component<void, S> {
 
     private updateElement: HTMLElement;
 
     constructor(props: void) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            asideIndex: 1,
+        };
     }
 
     public componentDidMount() {
 
         setInterval(() => {
             console.log("interval fired");
-            this.setState({});
+            this.setState({
+                asideIndex: this.state.asideIndex + 1,
+            });
         }, 5000);
 
         Velocity(this.updateElement, "slideDown", { duration: 1500 })
@@ -27,14 +37,22 @@ class VelocityDemoTool extends React.Component<void, {}> {
         console.log("component updated");
         Velocity(this.updateElement, "slideDown", { duration: 1500 })
             .then(() => Velocity(this.updateElement, "slideUp", { duration: 1500 }));
+
+        if (!moved) {
+            document.body.appendChild(this.updateElement);
+            moved = true;
+        }
     }
 
     public render(): React.ReactElement<null> {
         return <div>
-            <aside ref={(asideElement) => this.updateElement = asideElement}>Updated</aside>
+            <aside id={this.state.asideIndex.toString()}
+                ref={(asideElement) => this.updateElement = asideElement}>Updated</aside>
         </div>;
     }
 }
 
-ReactDOM.render(<VelocityDemoTool />, document.querySelector("main"));
+setInterval(() => {
+    ReactDOM.render(<VelocityDemoTool />, document.querySelector("main"));
+}, 2000);
 
